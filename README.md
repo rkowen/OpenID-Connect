@@ -13,8 +13,8 @@ out for yourself.
 Also it's assumed some knowledge of the PostgreSQL relational database and
 its tools.
 
-The PostgreSQL-* images rely on the "official" PostgreSQL Docker image,
-which should be downloaded to your local set of images with:
+The PostgreSQL-xxx images rely on the "official" PostgreSQL Docker image,
+which can be downloaded to your local set of images with:
 
 ```
 	docker pull postgres:9.3.4
@@ -23,7 +23,7 @@ which should be downloaded to your local set of images with:
 ## PostgreSQL-prep
 
 You will need to run the postgres-prep docker image to create a user and
-database.  View its documentation for details.
+database.  View that image's documentation for details.
 
 Once the PostgreSQL image and preparation are complete then an OpenID Connect
 container can be started 
@@ -36,6 +36,21 @@ docker run --name openid-connect                                        \
         --detach=true                                                   \
         --publish=4080:80                                               \
         openid-connect:1.0
+```
+
+The server is accessible at http://localhost:4180
+and here are a coupld of ways to test it out with the testclient entry:
+
+```
+curl    -u testclient:testpass                                          \
+        http://localhost:4180/token.php                                 \
+        --data 'grant_type=client_credentials'
+```
+
+And you should see something like:
+
+```
+{"access_token":"50702f4122909a6a2d4769d7b5cc1987e939605d","expires_in":3600,"token_type":"Bearer","scope":null}
 ```
 
 Go to Brent Shaffer's step-by-step walkthrough on his PHP version of the
